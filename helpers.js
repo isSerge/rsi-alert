@@ -7,51 +7,51 @@ const uri = config.get('bittrex.uri')
 const calculateRSI = async (currency = 'ETH', period = 5, unit = 'hour') => {
   console.log(currency, period, unit)
   try {
-    const closingPrices = await getClosingPrices(currency, period, unit);
+    const closingPrices = await getClosingPrices(currency, period, unit)
 
-    let count = 0;
-    const change = [];
+    let count = 0
+    const change = []
 
     // Calculating price changes
     for (const i of closingPrices) {
       if (count !== 0) {
-        change.push(i - closingPrices[count - 1]);
+        change.push(i - closingPrices[count - 1])
       }
-      count += 1;
+      count += 1
       if (count === 15) {
-        break;
+        break
       }
     }
 
     // Calculating gains and losses
-    const advances = change.filter(c => c > 0);
-    const declines = change.filter(c => c < 0).map(c => Math.abs(c));
+    const advances = change.filter(c => c > 0)
+    const declines = change.filter(c => c < 0).map(c => Math.abs(c))
 
-    const averageGain = advances.length > 0 ? advances.reduce((total, x) => total + x) / 14 : 0;
-    const averageLoss = declines.length > 0 ? declines.reduce((total, x) => total + x) / 14 : 0;
-    let newAvgGain = averageGain;
-    let newAvgLoss = averageLoss;
+    const averageGain = advances.length > 0 ? advances.reduce((total, x) => total + x) / 14 : 0
+    const averageLoss = declines.length > 0 ? declines.reduce((total, x) => total + x) / 14 : 0
+    let newAvgGain = averageGain
+    let newAvgLoss = averageLoss
     for (const i of closingPrices) {
       if (count > 14 && count < closingPrices.length) {
-        const close = closingPrices[count];
-        const newChange = close - closingPrices[count - 1];
-        let addLoss = 0;
-        let addGain = 0;
-        if (newChange > 0) addGain = newChange;
+        const close = closingPrices[count]
+        const newChange = close - closingPrices[count - 1]
+        let addLoss = 0
+        let addGain = 0
+        if (newChange > 0) addGain = newChange
         if (newChange < 0) {
-          addLoss = Math.abs(newChange);
-          newAvgGain = (newAvgGain * 13 + addGain) / 14;
-          newAvgLoss = (newAvgLoss * 13 + addLoss) / 14;
-          count += 1;
+          addLoss = Math.abs(newChange)
+          newAvgGain = (newAvgGain * 13 + addGain) / 14
+          newAvgLoss = (newAvgLoss * 13 + addLoss) / 14
+          count += 1
         }
       }
     }
 
-    const rs = newAvgGain / newAvgLoss;
-    const newRS = 100 - 100 / (1 + rs);
-    return newRS;
+    const rs = newAvgGain / newAvgLoss
+    const newRS = 100 - 100 / (1 + rs)
+    return newRS
   } catch (err) {
-    throw err;
+    throw err
   }
 }
 
