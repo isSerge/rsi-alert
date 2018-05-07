@@ -8,11 +8,11 @@ const currencySchema = Schema({
 	},
 	buy: {
 		type: Boolean,
-		required: true
+		default: true
 	},
 	sell: {
 		type: Boolean,
-		required: true
+		default: false
 	},
 })
 
