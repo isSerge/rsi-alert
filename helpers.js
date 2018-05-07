@@ -1,7 +1,7 @@
-const iterateCurrencies = (handler, xs) => {
+const iterate = (handler, xs) => {
 	for (const x of xs) handler(x)
 }
 
 module.exports = {
-	iterateCurrencies,
+	iterate,
 }
