@@ -12,16 +12,15 @@ const calculateRsi = async (currency, period, unit) => {
 
 const handleRsi = async ({ name }) => {
 	const rsi = await calculateRsi(name, 250, 'thirtyMin')
-	const condition = rsi >= 70 || rsi <= 30
-	// const condition = true
+	// const condition = rsi >= 70 || rsi <= 30
+	const condition = true
 
 	return condition
 		? sendAlert({ name, rsi })
 		: console.log(name, 'do nothing', rsi)
 }
 
-const handleCurrencies = currencies =>
-	iterate(handleRsi, currencies)
+const handleCurrencies = currencies => iterate(handleRsi, currencies)
 
 module.exports = {
 	handleCurrencies
