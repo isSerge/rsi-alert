@@ -1,5 +1,5 @@
-const sendAlert = ({ currency, rsi }) =>
-	console.log(currency, 'send notification', rsi)
+const sendAlert = ({ name, rsi }) =>
+	console.log(name, 'send notification', rsi)
 
 module.exports = {
 	sendAlert,
