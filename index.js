@@ -1,4 +1,16 @@
-const { calculateRSI } = require('./helpers')
+const { RSI }  = require('technicalindicators')
+const { getClosingPrices } = require('./helpers')
 
-calculateRSI('ETH', 14, 'hour')
-	.then(r => console.log('RSI', r))
+const calculate = async (currency, period, unit) => {
+	const values = await getClosingPrices(currency, period, unit)
+
+	const result = RSI.calculate({
+		values,
+		period: 14
+	})
+
+	console.log(result[result.length - 1])
+}
+
+calculate('ETH', 250, 'thirtyMin')
+
