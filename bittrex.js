@@ -6,10 +6,7 @@ const uri = config.get('bittrex.uri')
 
 const getClosingPrices = async (currency = 'ETH', period = 250, tickInterval = 'thirtyMin') => {
 	const ticks = await getTicks(currency, tickInterval)
-	const {
-		result = []
-	} = ticks.data
-
+	const { result = [] } = ticks.data
 	return R.pluck('C', R.takeLast(period, result))
 }
 
