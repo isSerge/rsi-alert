@@ -2,6 +2,7 @@ const config = require('config')
 const mongoose = require('mongoose')
 const { handleCurrencies } = require('./rsi')
 const { saveCurrency, getCurrencies } = require('./db')
+
 const interval = 15000
 
 // const currencies = [
@@ -22,8 +23,8 @@ const interval = 15000
 // ]
 
 const executeJob = currencies => {
-	handleCurrencies(currencies)
-	setInterval(() => handleCurrencies(currencies), interval)
+    handleCurrencies(currencies)
+    setInterval(() => handleCurrencies(currencies), interval)
 }
 
 const dbUrl = config.get('db.url')
@@ -32,8 +33,8 @@ mongoose.connect(dbUrl)
 const db = mongoose.connection
 
 db.once('open', async () => {
-	console.log('Database connection established')
-	// currencies.forEach(async x => await saveCurrency(x))
-	const currencies = await getCurrencies()
+    console.log('Database connection established')
+    // currencies.forEach(async x => await saveCurrency(x))
+    const currencies = await getCurrencies()
     executeJob(currencies)
 })

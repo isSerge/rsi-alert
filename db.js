@@ -5,6 +5,6 @@ const saveCurrency = currency => new Currency(currency).save()
 const getCurrencies = () => Currency.find({}).exec()
 
 module.exports = {
-	saveCurrency,
-	getCurrencies,
+    saveCurrency,
+    getCurrencies,
 }
