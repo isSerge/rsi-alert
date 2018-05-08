@@ -5,7 +5,7 @@ const iterate = (handler, xs) => {
 }
 
 const log = ({ name, rsi }) => {
-    const str = `${name}, ${rsi}`
+    const str = `${name}: ${rsi}`
 
     switch (true) {
         case rsi > 0 && rsi < 30:
