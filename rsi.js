@@ -14,9 +14,9 @@ const calculateRsi = async (currency, period, unit) => {
 	}
 }
 
-const handleRsi = async ({ name }) => {
+const handleRsi = async ({ name, buy, sell }) => {
 	const rsi = await calculateRsi(name, 250, 'thirtyMin')
-	const condition = rsi >= 70 || rsi <= 30
+	const condition = (rsi >= 70 && buy) || (rsi <= 30 && sell)
 	// const condition = true
 
 	return condition
