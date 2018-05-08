@@ -1,5 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api')
-const { logColored } = require('../helpers')
+const { logColored } = require('./logger')
 const token = process.env.TELEGRAM_TOKEN
 const bot = new TelegramBot(token, { polling: true })
 const chatId = process.env.CHAT_ID

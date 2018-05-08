@@ -2,7 +2,8 @@ const { last } = require('ramda')
 const { RSI } = require('technicalindicators')
 const { getClosingPrices } = require('./bittrex')
 const { sendAlert } = require('./bot')
-const { iterate, logColored, logTime } = require('../helpers')
+const { iterate } = require('../helpers')
+const { logColored, logTime } = require('./logger')
 
 const calculateRsi = async (currency, period, unit) => {
     try {
