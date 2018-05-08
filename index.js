@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const { handleCurrencies } = require('./components/rsi')
 const { getCurrencies } = require('./components/db')
 
-const interval = 15000
+const interval = 60000
 
 const executeJob = currencies => {
     handleCurrencies(currencies)
