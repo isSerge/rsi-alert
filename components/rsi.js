@@ -21,7 +21,12 @@ const handleRsi = async ({ name, buy, sell }) => {
     return buyCondition || sellCondition ? sendAlert({ name, rsi }) : log({ name, rsi })
 }
 
-const handleCurrencies = currencies => iterate(handleRsi, currencies)
+const handleCurrencies = currencies => {
+    console.log('-------------------------')
+    console.log(new Date(Date.now()))
+    console.log('-------------------------')
+    return iterate(handleRsi, currencies)
+}
 
 module.exports = {
     handleCurrencies,
