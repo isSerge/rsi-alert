@@ -5,15 +5,19 @@ const { sendAlert } = require('./alert')
 const { iterate } = require('./helpers')
 
 const calculateRsi = async (currency, period, unit) => {
-	const values = await getClosingPrices(currency, period, unit)
-	const result = RSI.calculate({ values, period: 14 })
-	return R.last(result)
+	try {
+		const values = await getClosingPrices(currency, period, unit)
+		const result = RSI.calculate({ values, period: 14 })
+		return R.last(result)
+	} catch (error) {
+		console.log('Failed to calculate for', currency)
+	}
 }
 
 const handleRsi = async ({ name }) => {
 	const rsi = await calculateRsi(name, 250, 'thirtyMin')
-	// const condition = rsi >= 70 || rsi <= 30
-	const condition = true
+	const condition = rsi >= 70 || rsi <= 30
+	// const condition = true
 
 	return condition
 		? sendAlert({ name, rsi })
