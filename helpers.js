@@ -4,7 +4,7 @@ const iterate = (handler, xs) => {
     for (const x of xs) handler(x)
 }
 
-const log = ({ name, rsi }) => {
+const logColored = ({ name, rsi }) => {
     const str = `${name}: ${rsi}`
 
     switch (true) {
@@ -21,7 +21,14 @@ const log = ({ name, rsi }) => {
     }
 }
 
+const logTime = () => {
+    console.log('-------------------------')
+    console.log(new Date(Date.now()))
+    console.log('-------------------------')
+}
+
 module.exports = {
     iterate,
-    log,
+    logColored,
+    logTime,
 }
