@@ -1,5 +1,5 @@
+const { last } = require('ramda')
 const { RSI }  = require('technicalindicators')
-const R = require('ramda')
 const { getClosingPrices } = require('./bittrex')
 const { sendAlert } = require('./alert')
 const { iterate } = require('./helpers')
@@ -8,7 +8,7 @@ const calculateRsi = async (currency, period, unit) => {
 	try {
 		const values = await getClosingPrices(currency, period, unit)
 		const result = RSI.calculate({ values, period: 14 })
-		return R.last(result)
+		return last(result)
 	} catch (error) {
 		console.log('Failed to calculate for', currency)
 	}
