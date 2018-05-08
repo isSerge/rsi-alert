@@ -2,7 +2,7 @@ const { last } = require('ramda')
 const { RSI } = require('technicalindicators')
 const { getClosingPrices } = require('./bittrex')
 const { sendAlert } = require('./alert')
-const { iterate } = require('./helpers')
+const { iterate, log } = require('../helpers')
 
 const calculateRsi = async (currency, period, unit) => {
     try {
@@ -16,10 +16,9 @@ const calculateRsi = async (currency, period, unit) => {
 
 const handleRsi = async ({ name, buy, sell }) => {
     const rsi = await calculateRsi(name, 250, 'thirtyMin')
-    const condition = (rsi >= 70 && buy) || (rsi <= 30 && sell)
-    // const condition = true
-
-    return condition ? sendAlert({ name, rsi }) : console.log(name, 'do nothing', rsi)
+    const sellCondition = rsi >= 70 && sell
+    const buyCondition = rsi <= 30 && buy
+    return buyCondition || sellCondition ? sendAlert({ name, rsi }) : log({ name, rsi })
 }
 
 const handleCurrencies = currencies => iterate(handleRsi, currencies)

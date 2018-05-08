@@ -12,16 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
+    "colors": "^1.2.4",
     "config": "^1.29.2",
-    "lodash": "^4.17.5",
     "mongoose": "^5.0.4",
-    "node-bittrex-api": "^0.8.3",
     "node-telegram-bot-api": "^0.30.0",
     "nodemon": "^1.14.11",
     "ramda": "^0.25.0",
-    "talib": "^1.0.4",
     "technicalindicators": "^1.1.4",
-    "tulind": "^0.8.9",
     "winston": "^2.4.0"
   },
   "devDependencies": {

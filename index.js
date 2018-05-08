@@ -1,7 +1,7 @@
 const config = require('config')
 const mongoose = require('mongoose')
-const { handleCurrencies } = require('./rsi')
-const { saveCurrency, getCurrencies } = require('./db')
+const { handleCurrencies } = require('./components/rsi')
+const { saveCurrency, getCurrencies } = require('./components/db')
 
 const interval = 15000
 

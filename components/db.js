@@ -1,4 +1,4 @@
-const Currency = require('./models/currency.model')
+const Currency = require('../models/currency.model')
 
 const saveCurrency = currency => new Currency(currency).save()
 // todo: modify to filter only sell and buy
