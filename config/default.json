@@ -9,6 +9,6 @@
     "messages": {
         "help": "help text",
         "start": "start text",
-        "commands": "\n/start \n/currencies \n/add"
+        "commands": "\n/start \n/help \n/ping \n/currencies"
     }
 }
