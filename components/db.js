@@ -1,8 +1,8 @@
-const R = require('ramda')
 const Currency = require('../models/currency.model')
 
 const getCurrencies = () => Currency.find({}).exec()
-const getCurrencyNames = async () => R.pluck('name', await getCurrencies())
+const getBuyCurrencies = () => Currency.find({ buy: true }).exec()
+const getSellCurrencies = () => Currency.find({ sell: true }).exec()
 const removeCurrency = name => Currency.remove({ name }).exec()
 const saveCurrency = currency => new Currency(currency).save()
 const updateCurrency = ({ name, sell, buy }) => Currency.updateOne({ name }, { sell, buy })
@@ -10,7 +10,8 @@ const updateCurrency = ({ name, sell, buy }) => Currency.updateOne({ name }, { s
 module.exports = {
     saveCurrency,
     getCurrencies,
-    getCurrencyNames,
+    getBuyCurrencies,
+    getSellCurrencies,
     removeCurrency,
     updateCurrency,
 }

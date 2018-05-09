@@ -2,8 +2,15 @@ const R = require('ramda')
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
 const { logColored } = require('./logger')
-const { getCurrencyNames, removeCurrency, saveCurrency, updateCurrency } = require('./db')
-const { addNumbers } = require('../helpers')
+const {
+    getCurrencies,
+    getBuyCurrencies,
+    getSellCurrencies,
+    removeCurrency,
+    saveCurrency,
+    updateCurrency,
+} = require('./db')
+const { addNumbers, getNames } = require('../helpers')
 const token = process.env.TELEGRAM_TOKEN
 const bot = new TelegramBot(token, { polling: true })
 const chatId = process.env.CHAT_ID
@@ -31,8 +38,10 @@ const handleHelp = msg => {
 
 const handleCurrencies = async msg => {
     const { id } = msg.from
-    const currencies = await getCurrencyNames()
-    bot.sendMessage(id, `selected currencies: \n${addNumbers(currencies).join('\n')}`)
+    const buy = getNames(await getBuyCurrencies())
+    const sell = getNames(await getSellCurrencies())
+    bot.sendMessage(id, `selected currencies to buy: \n${addNumbers(buy).join('\n')}`)
+    bot.sendMessage(id, `selected currencies to sell: \n${addNumbers(sell).join('\n')}`)
 }
 
 const handleAdd = async (msg, match) => {
@@ -54,7 +63,7 @@ const handleUpdate = async (msg, match) => {
     const [name, ...actions] = match[1].split(' ')
     const sell = R.contains('sell', actions)
     const buy = R.contains('buy', actions)
-    const currencies = await getCurrencyNames()
+    const currencies = getNames(await getCurrencies())
 
     if (R.contains(name, currencies)) {
         await updateCurrency({ name, sell, buy })
@@ -67,7 +76,7 @@ const handleUpdate = async (msg, match) => {
 const handleRemove = async (msg, match) => {
     const { id } = msg.from
     const name = match[1]
-    const currencies = await getCurrencyNames()
+    const currencies = getNames(await getCurrencies())
 
     if (R.contains(name, currencies)) {
         await removeCurrency(name)

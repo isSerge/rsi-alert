@@ -6,8 +6,10 @@ const iterate = (handler, xs) => {
 
 const mapIndexed = R.addIndex(R.map)
 const addNumbers = mapIndexed((x, i) => `${i + 1}. ${x}`)
+const getNames = R.pluck('name')
 
 module.exports = {
     iterate,
     addNumbers,
+    getNames,
 }
