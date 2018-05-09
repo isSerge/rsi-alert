@@ -8,19 +8,19 @@ const currencySchema = Schema({
     },
     buy: {
         type: Boolean,
-        default: true,
+        required: true,
     },
     sell: {
         type: Boolean,
-        default: false,
+        required: true,
     },
 })
 
 currencySchema.pre('save', function(next) {
-    const { currency } = this
+    const { name } = this
 
     currencyModel
-        .find({ currency })
+        .find({ name })
         .exec()
         .then(docs => (!docs.length ? next() : next(new Error('currency exists!'))))
         .catch(err => next(new Error(err)))

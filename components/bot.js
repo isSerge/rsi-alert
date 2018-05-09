@@ -1,8 +1,8 @@
+const R = require('ramda')
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
-const R = require('ramda')
 const { logColored } = require('./logger')
-const { getCurrencies } = require('./db')
+const { getCurrencyNames, saveCurrency } = require('./db')
 const token = process.env.TELEGRAM_TOKEN
 const bot = new TelegramBot(token, { polling: true })
 const chatId = process.env.CHAT_ID
@@ -24,14 +24,17 @@ const init = () => {
 
     bot.onText(/\/currencies/, async msg => {
         const { id } = msg.from
-        const currencies = await getCurrencies()
-        bot.sendMessage(id, `selected currencies: ${R.pluck('name', currencies).join(', ')}`)
+        const currencies = await getCurrencyNames()
+        bot.sendMessage(id, `selected currencies: ${currencies.join(', ')}`)
     })
 
-    bot.onText(/\/add/, msg => {
+    bot.onText(/\/add (.+)/, (msg, match) => {
         const { id } = msg.from
-
-        bot.sendMessage(id, 'add new currency')
+        const [name, ...actions] = match[1].split(' ')
+        const sell = R.contains('sell', actions)
+        const buy = R.contains('buy', actions)
+        saveCurrency({ name, sell, buy })
+        bot.sendMessage(id, `Added new currency: ${name}, sell: ${sell}, buy: ${buy}`)
     })
 }
 
