@@ -9,7 +9,7 @@ const logColored = ({ name, rsi }) => {
             return console.log(colors.green(str))
         case rsi > 30 && rsi < 35:
             return console.log(colors.yellow(str))
-        case rsi > 65 && rsi < 69:
+        case rsi > 65 && rsi < 70:
             return console.log(colors.magenta(str))
         case rsi > 70 && rsi < 100:
             return console.log(colors.red(str))
