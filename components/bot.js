@@ -18,7 +18,6 @@ const chatId = process.env.CHAT_ID
 const sendAlert = ({ name, rsi }) => {
     logColored({ name, rsi })
     bot.sendMessage(chatId, `${rsi >= 70 ? 'sell' : 'buy'}: ${name}, ${rsi}`)
-    console.log('Alert was sent')
 }
 
 const handleStart = msg => {

@@ -20,8 +20,7 @@
     "node-telegram-bot-api": "^0.30.0",
     "nodemon": "^1.14.11",
     "ramda": "^0.25.0",
-    "technicalindicators": "^1.1.4",
-    "winston": "^2.4.0"
+    "technicalindicators": "^1.1.4"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

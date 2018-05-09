@@ -11,7 +11,7 @@ const calculateRsi = async (currency, period, unit) => {
         const result = RSI.calculate({ values, period: 14 })
         return last(result)
     } catch (error) {
-        console.log('Failed to calculate for', currency)
+        console.error('Failed to calculate for', currency)
     }
 }
 
