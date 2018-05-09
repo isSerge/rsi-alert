@@ -69,7 +69,7 @@ const handleUpdate = async (msg, match) => {
         await updateCurrency({ name, sell, buy })
         bot.sendMessage(id, `Currency updated: ${name}, sell: ${sell}, buy: ${buy}`)
     } else {
-        bot.sendMessage(id, `Failed to update currency: ${name}`)
+        bot.sendMessage(id, `Currency is not in the list: ${name}`)
     }
 }
 
@@ -82,7 +82,7 @@ const handleRemove = async (msg, match) => {
         await removeCurrency(name)
         bot.sendMessage(id, `Currency was removed: ${name}`)
     } else {
-        bot.sendMessage(id, `Failed to remove currency: ${name}`)
+        bot.sendMessage(id, `Currency is not in the list: ${name}`)
     }
 }
 
