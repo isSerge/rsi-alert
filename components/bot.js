@@ -28,13 +28,18 @@ const init = () => {
         bot.sendMessage(id, `selected currencies: ${currencies.join(', ')}`)
     })
 
-    bot.onText(/\/add (.+)/, (msg, match) => {
+    bot.onText(/\/add (.+)/, async (msg, match) => {
         const { id } = msg.from
         const [name, ...actions] = match[1].split(' ')
         const sell = R.contains('sell', actions)
         const buy = R.contains('buy', actions)
-        saveCurrency({ name, sell, buy })
-        bot.sendMessage(id, `Added new currency: ${name}, sell: ${sell}, buy: ${buy}`)
+
+        try {
+            await saveCurrency({ name, sell, buy })
+            bot.sendMessage(id, `Added new currency: ${name}, sell: ${sell}, buy: ${buy}`)
+        } catch (error) {
+            bot.sendMessage(id, `${error}`)
+        }
     })
 }
 
