@@ -49,22 +49,32 @@ const handleAdd = async (msg, match) => {
     }
 }
 
-const handleStop = async (msg, match) => {
+const handleUpdate = async (msg, match) => {
     const { id } = msg.from
     const [name, ...actions] = match[1].split(' ')
     const sell = R.contains('sell', actions)
     const buy = R.contains('buy', actions)
+    const currencies = await getCurrencyNames()
 
-    // try {
-    //     await saveCurrency({ name, sell, buy })
-    //     bot.sendMessage(id, `Added new currency: ${name}, sell: ${sell}, buy: ${buy}`)
-    // } catch (error) {
-    //     bot.sendMessage(id, `${error}`)
-    // }
+    if (R.contains(name, currencies)) {
+        await updateCurrency({ name, sell, buy })
+        bot.sendMessage(id, `Currency updated: ${name}, sell: ${sell}, buy: ${buy}`)
+    } else {
+        bot.sendMessage(id, `Failed to update currency: ${name}`)
+    }
+}
 
-    // check if name is in the list of currencies
-    // if sell and buy false - remove currency
-    // else save
+const handleRemove = async (msg, match) => {
+    const { id } = msg.from
+    const name = match[1]
+    const currencies = await getCurrencyNames()
+
+    if (R.contains(name, currencies)) {
+        await removeCurrency(name)
+        bot.sendMessage(id, `Currency was removed: ${name}`)
+    } else {
+        bot.sendMessage(id, `Failed to remove currency: ${name}`)
+    }
 }
 
 const init = () => {
@@ -74,7 +84,8 @@ const init = () => {
     bot.onText(/\/help/, handleHelp)
     bot.onText(/\/currencies/, handleCurrencies)
     bot.onText(/\/add (.+)/, handleAdd)
-    bot.onText(/\/stop (.+)/, handleStop)
+    bot.onText(/\/update (.+)/, handleUpdate)
+    bot.onText(/\/remove (.+)/, handleRemove)
 }
 
 module.exports = {
