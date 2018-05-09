@@ -9,6 +9,6 @@
     "messages": {
         "help": "help text",
         "start": "start text",
-        "commands": "commands list"
+        "commands": "\n/start \n/currencies \n/add"
     }
 }

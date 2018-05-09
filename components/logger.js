@@ -1,4 +1,5 @@
 const colors = require('colors')
+const moment = require('moment')
 
 const logColored = ({ name, rsi }) => {
     const str = `${name}: ${rsi}`
@@ -19,7 +20,7 @@ const logColored = ({ name, rsi }) => {
 
 const logTime = () => {
     console.log('-------------------------')
-    console.log(new Date(Date.now()))
+    console.log(moment(moment()).format('MMMM Do, hh:mm a'))
     console.log('-------------------------')
 }
 

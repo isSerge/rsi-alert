@@ -1,3 +1,4 @@
+const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
 const { logColored } = require('./logger')
 const token = process.env.TELEGRAM_TOKEN
@@ -11,11 +12,24 @@ const sendAlert = ({ name, rsi }) => {
 }
 
 const init = () => {
-    bot.sendMessage(chatId, 'Init')
+    bot.sendMessage(chatId, config.get('messages.commands'))
 
-    bot.on('message', msg => {
-        // const chatId = msg.chat.id
-        bot.sendMessage(chatId, 'SHTOOO')
+    bot.onText(/\/start/, msg => {
+        const { id } = msg.from
+
+        bot.sendMessage(id, config.get('messages.start') + config.get('messages.commands'))
+    })
+
+    bot.onText(/\/currencies/, msg => {
+        const { id } = msg.from
+
+        bot.sendMessage(id, 'your currencies:')
+    })
+
+    bot.onText(/\/add/, msg => {
+        const { id } = msg.from
+
+        bot.sendMessage(id, 'add new currency')
     })
 }
 
