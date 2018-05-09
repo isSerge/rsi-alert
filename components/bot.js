@@ -1,6 +1,8 @@
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
+const R = require('ramda')
 const { logColored } = require('./logger')
+const { getCurrencies } = require('./db')
 const token = process.env.TELEGRAM_TOKEN
 const bot = new TelegramBot(token, { polling: true })
 const chatId = process.env.CHAT_ID
@@ -20,10 +22,10 @@ const init = () => {
         bot.sendMessage(id, config.get('messages.start') + config.get('messages.commands'))
     })
 
-    bot.onText(/\/currencies/, msg => {
+    bot.onText(/\/currencies/, async msg => {
         const { id } = msg.from
-
-        bot.sendMessage(id, 'your currencies:')
+        const currencies = await getCurrencies()
+        bot.sendMessage(id, `selected currencies: ${R.pluck('name', currencies).join(', ')}`)
     })
 
     bot.onText(/\/add/, msg => {
