@@ -1,0 +1,14 @@
+{
+    "interval": 60000,
+    "bittrex": {
+        "uri": "https://bittrex.com"
+    },
+    "db": {
+        "url": "mongodb://127.0.0.1/rsi-alert"
+    },
+    "messages": {
+        "help": "help text",
+        "start": "start text",
+        "commands": "commands list"
+    }
+}
