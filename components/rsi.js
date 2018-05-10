@@ -22,11 +22,11 @@ const processRsi = async ({ name, buy, sell }) => {
     return buyCondition || sellCondition ? sendAlert({ name, rsi }) : logColored({ name, rsi })
 }
 
-const handleCurrencies = currencies => {
+const processCurrencies = currencies => {
     logTime()
     return iterate(processRsi, currencies)
 }
 
 module.exports = {
-    handleCurrencies,
+    processCurrencies,
 }
