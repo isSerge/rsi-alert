@@ -26,6 +26,25 @@ const getTicks = (currency, tickInterval) => {
     })
 }
 
+const getMarkets = () => {
+    const pathname = '/api/v1.1/public/getmarkets'
+    const url = `${uri}${pathname}`
+
+    return axios({
+        method: 'get',
+        url,
+        responseType: 'json',
+    })
+}
+
+const getMarketNames = async () => {
+    const markets = await getMarkets()
+
+    const { result = [] } = markets.data
+    return R.pluck('MarketCurrency', result)
+}
+
 module.exports = {
     getClosingPrices,
+    getMarketNames,
 }
