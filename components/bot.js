@@ -10,6 +10,7 @@ const {
     saveCurrency,
     updateCurrency,
 } = require('./db')
+const { getMarketNames } = require('./bittrex')
 const { addNumbers, getNames } = require('../helpers')
 const token = process.env.TELEGRAM_TOKEN
 const bot = new TelegramBot(token, { polling: true })
@@ -48,6 +49,12 @@ const handleAdd = async (msg, match) => {
     const [name, ...actions] = match[1].split(' ')
     const sell = R.contains('sell', actions)
     const buy = R.contains('buy', actions)
+
+    const currencies = await getMarketNames()
+
+    if (!R.contains(name, currencies)) {
+        return bot.sendMessage(id, `Currency is not listed on Bittrex: ${name}`)
+    }
 
     try {
         await saveCurrency({ name, sell, buy })
