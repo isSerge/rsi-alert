@@ -1,3 +1,4 @@
+require('dotenv').config()
 const R = require('ramda')
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
