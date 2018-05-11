@@ -13,6 +13,7 @@ const execute = async () => {
     setInterval(async () => processCurrencies(await getCurrencies()), config.get('interval'))
 }
 
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 db.once('open', () => {
     init()
     execute()
