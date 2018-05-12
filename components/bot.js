@@ -13,8 +13,18 @@ const {
 const { getMarketNames } = require('./bittrex')
 const { addNumbers, getNames } = require('../helpers')
 const token = process.env.TELEGRAM_TOKEN
-const bot = new TelegramBot(token, { polling: true })
 const chatId = process.env.CHAT_ID
+
+const options = {
+    webHook: {
+        port: process.env.PORT,
+    },
+}
+
+const url = process.env.APP_URL || 'https://rsi-alert.herokuapp.com:443'
+const bot = new TelegramBot(token, options)
+
+bot.setWebHook(`${url}/bot${token}`)
 
 const sendAlert = ({ name, rsi }) => {
     logColored({ name, rsi })
