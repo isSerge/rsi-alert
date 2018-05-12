@@ -46,13 +46,14 @@ const handleCurrencies = async msg => {
 
 const handleAdd = async (msg, match) => {
     const { id } = msg.from
-    const [name, ...actions] = match[1].split(' ')
+    const [inputName, ...actions] = match[1].split(' ')
+    const name = R.toUpper(inputName)
     const sell = R.contains('sell', actions)
     const buy = R.contains('buy', actions)
 
     const currencies = await getMarketNames()
 
-    if (!R.contains(R.toLower(name), currencies)) {
+    if (!R.contains(name, currencies)) {
         return bot.sendMessage(id, `Currency is not listed on Bittrex: ${name}`)
     }
 
