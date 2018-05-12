@@ -46,8 +46,8 @@ const handleCurrencies = async msg => {
 
 const handleAdd = async (msg, match) => {
     const { id } = msg.from
-    const [inputName, ...actions] = match[1].split(' ')
-    const name = R.toUpper(inputName)
+    const [providedName, ...actions] = match[1].split(' ')
+    const name = R.toUpper(providedName)
     const sell = R.contains('sell', actions)
     const buy = R.contains('buy', actions)
 
