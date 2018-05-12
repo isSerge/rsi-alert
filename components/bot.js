@@ -1,4 +1,3 @@
-require('dotenv').config()
 const R = require('ramda')
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
@@ -53,7 +52,7 @@ const handleAdd = async (msg, match) => {
 
     const currencies = await getMarketNames()
 
-    if (!R.contains(name, currencies)) {
+    if (!R.contains(R.toLower(name), currencies)) {
         return bot.sendMessage(id, `Currency is not listed on Bittrex: ${name}`)
     }
 
