@@ -5,21 +5,26 @@ const { sendAlert } = require('./bot')
 const { iterate } = require('../helpers')
 const { logColored, logTime } = require('./logger')
 
-const calculateRsi = async (currency, period, unit) => {
+const getRsiAndPrice = async (currency, period, unit) => {
     try {
         const values = await getClosingPrices(currency, period, unit)
         const result = RSI.calculate({ values, period: 14 })
-        return last(result)
+        return {
+            rsi: last(result),
+            price: last(values),
+        }
     } catch (error) {
         console.error('Failed to calculate for', currency)
     }
 }
 
 const processRsi = async ({ name, buy, sell }) => {
-    const rsi = await calculateRsi(name, 250, 'thirtyMin')
+    const { rsi, price } = await getRsiAndPrice(name, 250, 'thirtyMin')
     const sellCondition = rsi >= 70 && sell
     const buyCondition = rsi <= 30 && buy
-    return buyCondition || sellCondition ? sendAlert({ name, rsi }) : logColored({ name, rsi })
+    return buyCondition || sellCondition
+        ? sendAlert({ name, rsi, price })
+        : logColored({ name, rsi, price })
 }
 
 const processCurrencies = currencies => {

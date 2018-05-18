@@ -16,9 +16,9 @@ const token = process.env.TELEGRAM_TOKEN
 const chatId = process.env.CHAT_ID
 const bot = new TelegramBot(token, { polling: true })
 
-const sendAlert = ({ name, rsi }) => {
-    logColored({ name, rsi })
-    bot.sendMessage(chatId, `${rsi >= 70 ? 'sell' : 'buy'}: ${name}, ${rsi}`)
+const sendAlert = ({ name, rsi, price }) => {
+    logColored({ name, rsi, price })
+    bot.sendMessage(chatId, `${rsi >= 70 ? 'sell' : 'buy'}: ${name}, ${rsi}, ${price}`)
 }
 
 const handleStart = msg => {

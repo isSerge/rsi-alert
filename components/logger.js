@@ -1,8 +1,8 @@
 const colors = require('colors')
 const moment = require('moment')
 
-const logColored = ({ name, rsi }) => {
-    const str = `${name}: ${rsi}`
+const logColored = ({ name, rsi, price }) => {
+    const str = `${name}: ${rsi}, ${price}`
 
     switch (true) {
         case rsi > 0 && rsi < 30:
