@@ -31,8 +31,9 @@ const filteredCurrencies = R.filter(x => {
     return sellCondition || buyCondition
 })
 
-const processSummary = xs => {
-    console.log('should be summary')
+const processSummary = async xs => {
+    const currencies = await getCurrenciesWithRsi(xs)
+    return sendAlert(currencies)
 }
 
 const processCurrencies = async xs => {

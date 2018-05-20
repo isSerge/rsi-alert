@@ -16,10 +16,7 @@ const chatId = process.env.CHAT_ID
 const bot = new TelegramBot(token, { polling: true })
 
 const sendAlert = xs => {
-    const message = R.compose(
-        R.join(',\n'),
-        R.map(x => `${x.rsi >= 70 ? 'sell' : 'buy'}: ${x.name}, ${x.rsi}, ${x.price}`),
-    )(xs)
+    const message = R.compose(R.join(',\n'), R.map(x => `${x.name}, ${x.rsi}, ${x.price}`))(xs)
 
     bot.sendMessage(chatId, message)
 }
