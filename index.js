@@ -12,10 +12,7 @@ const db = mongoose.connection
 const execute = async () => {
     await processCurrencies(await getCurrencies())
     setInterval(async () => await processCurrencies(await getCurrencies()), config.get('interval'))
-    setInterval(
-        async () => await processSummary(await getCurrencies()),
-        config.get('summaryInterval'),
-    )
+    setInterval(async () => await processSummary(await getCurrencies()), config.get('sumInterval'))
 }
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
