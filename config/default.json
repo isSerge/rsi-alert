@@ -1,5 +1,6 @@
 {
     "interval": 60000,
+    "summaryInterval": 360000,
     "bittrex": {
         "uri": "https://bittrex.com"
     },

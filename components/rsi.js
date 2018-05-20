@@ -4,12 +4,17 @@ const { getClosingPrices } = require('./bittrex')
 const { sendAlert } = require('./bot')
 const { iterate } = require('../helpers')
 const { logColored, logTime } = require('./logger')
+const R = require('ramda')
 
 const getRsiAndPrice = async (currency, period, unit) => {
     try {
-        const values = await getClosingPrices(currency, period, unit)
+        const { name, sell, buy } = currency
+        const values = await getClosingPrices(name, period, unit)
         const result = RSI.calculate({ values, period: 14 })
         return {
+            name,
+            sell,
+            buy,
             rsi: last(result),
             price: last(values),
         }
@@ -18,20 +23,27 @@ const getRsiAndPrice = async (currency, period, unit) => {
     }
 }
 
-const processRsi = async ({ name, buy, sell }) => {
-    const { rsi, price } = await getRsiAndPrice(name, 250, 'thirtyMin')
-    const sellCondition = rsi >= 70 && sell
-    const buyCondition = rsi <= 30 && buy
-    return buyCondition || sellCondition
-        ? sendAlert({ name, rsi, price })
-        : logColored({ name, rsi, price })
+const getCurrenciesWithRsi = iterate(async x => await getRsiAndPrice(x, 250, 'thirtyMin'))
+
+const filteredCurrencies = R.filter(x => {
+    const sellCondition = x.rsi >= 70 && x.sell
+    const buyCondition = x.rsi <= 30 && x.buy
+    return sellCondition || buyCondition
+})
+
+const processSummary = xs => {
+    console.log('should be summary')
 }
 
-const processCurrencies = currencies => {
+const processCurrencies = async xs => {
+    const currencies = await getCurrenciesWithRsi(xs)
     logTime()
-    return iterate(processRsi, currencies)
+    R.forEach(logColored)(currencies)
+    const filtered = filteredCurrencies(currencies)
+    return filtered.length > 0 && sendAlert(filtered)
 }
 
 module.exports = {
     processCurrencies,
+    processSummary,
 }

@@ -1,7 +1,6 @@
 const R = require('ramda')
 const config = require('config')
 const TelegramBot = require('node-telegram-bot-api')
-const { logColored } = require('./logger')
 const {
     getCurrencies,
     getBuyCurrencies,
@@ -16,9 +15,17 @@ const token = process.env.TELEGRAM_TOKEN
 const chatId = process.env.CHAT_ID
 const bot = new TelegramBot(token, { polling: true })
 
-const sendAlert = ({ name, rsi, price }) => {
-    logColored({ name, rsi, price })
-    bot.sendMessage(chatId, `${rsi >= 70 ? 'sell' : 'buy'}: ${name}, ${rsi}, ${price}`)
+const sendAlert = xs => {
+    const message = R.compose(
+        R.join(',\n'),
+        R.map(x => `${x.rsi >= 70 ? 'sell' : 'buy'}: ${x.name}, ${x.rsi}, ${x.price}`),
+    )(xs)
+
+    bot.sendMessage(chatId, message)
+}
+
+const sendSummary = summary => {
+    bot.sendMessage(summary)
 }
 
 const handleStart = msg => {
@@ -106,5 +113,6 @@ const init = () => {
 
 module.exports = {
     sendAlert,
+    sendSummary,
     init,
 }
