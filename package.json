@@ -6,7 +6,7 @@
     "scripts": {
         "start": "nf start",
         "dev": "NODE_ENV=development nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "node __tests__/*.test.js"
     },
     "keywords": [],
     "author": "",
@@ -29,6 +29,7 @@
         "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
         "eslint-plugin-import": "^2.11.0",
-        "prettier": "1.12.1"
+        "prettier": "1.12.1",
+        "tape": "^4.9.0"
     }
 }
