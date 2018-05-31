@@ -16,7 +16,10 @@ const chatId = process.env.CHAT_ID
 const bot = new TelegramBot(token, { polling: true })
 
 const sendAlert = xs => {
-    const message = R.compose(R.join(',\n'), R.map(x => `${x.name}, ${x.rsi}, ${x.price}`))(xs)
+    const message = R.compose(
+        R.join(',\n'),
+        R.map(x => `${x.longName} (${x.name}), ${x.rsi}, ${x.price}`),
+    )(xs)
 
     bot.sendMessage(chatId, message)
 }
@@ -57,13 +60,18 @@ const handleAdd = async (msg, match) => {
 
     const currencies = await getMarketNames()
 
-    if (!R.contains(name, currencies)) {
+    if (!R.contains(name, R.pluck('MarketCurrency', currencies))) {
         return bot.sendMessage(id, `Currency is not listed on Bittrex: ${name}`)
     }
 
     try {
-        await saveCurrency({ name, sell, buy })
-        bot.sendMessage(id, `Added new currency: ${name}, sell: ${sell}, buy: ${buy}`)
+        const longName = R.prop(
+            'MarketCurrencyLong',
+            R.find(R.propEq('MarketCurrency', name), currencies),
+        )
+
+        await saveCurrency({ name, sell, buy, longName })
+        bot.sendMessage(id, `Added new currency: ${longName} (${name}), sell: ${sell}, buy: ${buy}`)
     } catch (error) {
         bot.sendMessage(id, `${error}`)
     }

@@ -41,7 +41,7 @@ const getMarketNames = async () => {
     const markets = await getMarkets()
 
     const { result = [] } = markets.data
-    return R.pluck('MarketCurrency', result)
+    return R.map(R.pick(['MarketCurrency', 'MarketCurrencyLong']))(result)
 }
 
 module.exports = {

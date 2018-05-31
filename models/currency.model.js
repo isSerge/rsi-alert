@@ -6,6 +6,10 @@ const currencySchema = Schema({
         type: String,
         required: true,
     },
+    longName: {
+        type: String,
+        required: true,
+    },
     buy: {
         type: Boolean,
         required: true,

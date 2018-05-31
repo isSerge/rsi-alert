@@ -8,11 +8,12 @@ const R = require('ramda')
 
 const getRsiAndPrice = async (currency, period, unit) => {
     try {
-        const { name, sell, buy } = currency
+        const { name, longName, sell, buy } = currency
         const values = await getClosingPrices(name, period, unit)
         const result = RSI.calculate({ values, period: 14 })
         return {
             name,
+            longName,
             sell,
             buy,
             rsi: last(result),
