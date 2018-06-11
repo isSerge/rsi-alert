@@ -16,9 +16,7 @@
         "colors": "^1.2.4",
         "config": "^1.29.2",
         "dotenv": "^5.0.1",
-        "foreman": "2.0.0",
         "moment": "^2.22.1",
-        "momentjs": "^2.0.0",
         "mongoose": "^5.0.4",
         "node-telegram-bot-api": "^0.30.0",
         "nodemon": "^1.14.11",
@@ -29,7 +27,7 @@
         "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
         "eslint-plugin-import": "^2.11.0",
-        "prettier": "1.12.1",
-        "tape": "^4.9.0"
+        "jest": "^23.1.0",
+        "prettier": "1.12.1"
     }
 }
