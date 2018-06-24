@@ -19,11 +19,17 @@ const getRsiAndPrice = async (currency, period, unit) => {
             price: last(values),
         }
     } catch (error) {
-        console.error('Failed to calculate for', currency)
+        console.error(`Failed to calculate for ${currency.name}: `, error)
     }
 }
 
-const getCurrenciesWithRsi = iterate(async x => await getRsiAndPrice(x, 250, 'thirtyMin'))
+const getCurrenciesWithRsi = iterate(async x => {
+    try {
+        return await getRsiAndPrice(x, 250, 'thirtyMin')
+    } catch (error) {
+        console.error('Failed to get currencies with RSI: ', error)
+    }
+})
 
 const filteredCurrencies = filter(x => {
     const sellCondition = x.rsi >= 70 && x.sell
@@ -32,16 +38,24 @@ const filteredCurrencies = filter(x => {
 })
 
 const processSummary = async xs => {
-    const currencies = await getCurrenciesWithRsi(xs)
-    return sendAlert(currencies)
+    try {
+        const currencies = await getCurrenciesWithRsi(xs)
+        return sendAlert(currencies)
+    } catch (error) {
+        console.error('Failed to process summary: ', error)
+    }
 }
 
 const processCurrencies = async xs => {
-    const currencies = await getCurrenciesWithRsi(xs)
-    logTime()
-    forEach(logColored)(currencies)
-    const filtered = filteredCurrencies(currencies)
-    return filtered.length > 0 && sendAlert(filtered)
+    try {
+        const currencies = await getCurrenciesWithRsi(xs)
+        logTime()
+        forEach(logColored)(currencies)
+        const filtered = filteredCurrencies(currencies)
+        return filtered.length > 0 && sendAlert(filtered)
+    } catch (error) {
+        console.error('Failed to process currencies: ', error)
+    }
 }
 
 module.exports = {

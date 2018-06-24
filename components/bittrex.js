@@ -12,7 +12,7 @@ const getClosingPrices = async (currency = 'ETH', period = 250, tickInterval = '
 
 const getTicks = (currency, tickInterval) => {
     const marketName = `BTC-${currency}`
-    const pathname = '/api/v2.0//pub/market/GetTicks'
+    const pathname = '/api/v2.0/pub/market/GetTicks'
     const q = querystring.stringify({
         marketName,
         tickInterval,
